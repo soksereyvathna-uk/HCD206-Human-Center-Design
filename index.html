@@ -1,0 +1,1112 @@
+<!-- References
+  1. Google. (2019). Google Fonts. Google Fonts. https://fonts.google.com/
+  2. Visual Studio Code. (2023). Documentation for Visual Studio Code. Code.visualstudio.com. https://code.visualstudio.com/docs
+  3. Anthropic. (2025). Claude. Claude.ai. https://claude.ai/
+  4. Google. (n.d.). Google. Google.com; google. https://google.com
+  5. (2026). Imgix.net. https://bellroy-product-images.imgix.net/bellroy_dot_com_gallery_image/AUD/BHRB-BLK-243/0?auto=format&fit=crop&w=1920&h=1920 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bloom Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black:   #0E0C09;
+      --ink:     #1C1A16;
+      --stone:   #4A4238;
+      --muted:   #8C7E6E;
+      --dim:     #B8A99A;
+      --fog:     #E8E2D8;
+      --cream:   #F3EDE3;
+      --paper:   #FAF7F2;
+      --white:   #FDFBF7;
+      --rust:    #C5623A;
+      --rust-d:  #A44E2C;
+      --rust-g:  rgba(197,98,58,0.12);
+      --sage:    #6B8C6F;
+      --sage-g:  rgba(107,140,111,0.12);
+      --gold:    #C49A3C;
+      --s1: 0 1px 4px rgba(14,12,9,.06),0 2px 12px rgba(14,12,9,.04);
+      --s2: 0 4px 20px rgba(14,12,9,.10),0 1px 6px rgba(14,12,9,.05);
+      --s3: 0 12px 40px rgba(14,12,9,.14),0 4px 12px rgba(14,12,9,.07);
+      --s4: 0 24px 64px rgba(14,12,9,.18),0 8px 24px rgba(14,12,9,.08);
+    }
+
+    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'DM Sans',sans-serif; background:var(--paper); color:var(--ink); min-height:100vh; }
+
+    /* ── SCREENS ── */
+    .screen { display:none; }
+    .screen.active  { display:block; animation:sIn  .32s cubic-bezier(.4,0,.2,1) both; }
+    .screen.reverse { display:block; animation:sOut .32s cubic-bezier(.4,0,.2,1) both; }
+    @keyframes sIn  { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:none} }
+    @keyframes sOut { from{opacity:0;transform:translateX(-20px)} to{opacity:1;transform:none} }
+
+    /* ── HEADER ── */
+    .header {
+      position: sticky; top:0; z-index:80;
+      background: rgba(250,247,242,.96);
+      backdrop-filter: blur(18px) saturate(160%);
+      border-bottom: 1px solid var(--fog);
+    }
+    .header-inner {
+      max-width:1160px; margin:0 auto;
+      padding:0 40px; height:68px;
+      display:flex; align-items:center; justify-content:space-between; gap:20px;
+    }
+
+    /* Logo */
+    .logo { display:flex; align-items:center; gap:10px; flex-shrink:0; text-decoration:none; }
+    .logo-icon {
+      width:36px; height:36px; border-radius:10px;
+      background:var(--ink); display:flex; align-items:center; justify-content:center;
+      font-size:18px; flex-shrink:0;
+    }
+    .logo-name { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:var(--ink); line-height:1; letter-spacing:-0.3px; }
+    .logo-tag  { font-size:11px; color:var(--muted); margin-top:2px; font-weight:400; }
+
+    /* Step tabs */
+    .step-tabs {
+      display:flex; align-items:center;
+      background:var(--cream); border:1px solid var(--fog);
+      border-radius:100px; padding:4px; gap:2px;
+      flex:1; max-width:360px;
+    }
+    .stab {
+      flex:1; display:flex; align-items:center; justify-content:center; gap:7px;
+      padding:8px 14px; border-radius:100px; border:none; background:none;
+      cursor:pointer; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500;
+      color:var(--muted); transition:all .2s; white-space:nowrap;
+    }
+    .stab:hover { color:var(--ink); }
+    .stab.active { background:var(--white); color:var(--ink); box-shadow:var(--s1); font-weight:600; }
+    .stab.visited { color:var(--stone); }
+    .stab-num {
+      width:20px; height:20px; border-radius:50%; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+      font-size:10px; font-weight:700;
+      background:var(--fog); color:var(--muted);
+      transition:all .2s;
+    }
+    .stab.active  .stab-num { background:var(--ink); color:#fff; }
+    .stab.visited .stab-num { background:var(--sage); color:#fff; }
+
+    /* Cart button in header */
+    .cart-btn {
+      display:flex; align-items:center; gap:10px;
+      padding:9px 18px; border-radius:100px;
+      background:var(--ink); color:#fff; border:none; cursor:pointer;
+      font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600;
+      box-shadow:0 2px 12px rgba(14,12,9,.2);
+      transition:background .18s, transform .15s;
+      flex-shrink:0; position:relative;
+    }
+    .cart-btn:hover { background:var(--rust); }
+    .cart-btn:active { transform:scale(.97); }
+    .cart-btn.has-items { background:var(--rust); }
+    .cart-icon { font-size:15px; }
+    .cart-count-pill {
+      background:rgba(255,255,255,.2); border-radius:100px;
+      padding:1px 7px; font-size:12px; font-weight:700;
+      min-width:22px; text-align:center;
+    }
+    .cart-total-text { font-size:13px; font-weight:600; }
+    .cart-btn.bump .cart-count-pill { animation:pillBump .25s cubic-bezier(.4,0,.2,1); }
+    @keyframes pillBump { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+
+    /* Util buttons */
+    .util-btn {
+      width:38px; height:38px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid var(--fog); background:transparent;
+      color:var(--stone); cursor:pointer; transition:all .18s; flex-shrink:0;
+    }
+    .util-btn:hover { border-color:var(--dim); color:var(--ink); background:var(--cream); }
+    .back-btn {
+      display:flex; align-items:center; gap:6px;
+      padding:8px 14px; border-radius:100px;
+      border:1px solid var(--fog); background:transparent;
+      color:var(--stone); cursor:pointer; font-family:'DM Sans',sans-serif;
+      font-size:12px; font-weight:500; transition:all .18s; flex-shrink:0;
+      white-space:nowrap;
+    }
+    .back-btn:hover { border-color:var(--dim); color:var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      background:var(--ink);
+      padding:44px 40px 40px;
+      position:relative; overflow:hidden;
+    }
+    .hero::after {
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 50% 90% at 85% 50%, rgba(197,98,58,.13) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 70% at 5% 90%, rgba(107,140,111,.09) 0%, transparent 60%);
+    }
+    .hero-inner { max-width:1160px; margin:0 auto; position:relative; z-index:1; }
+    .hero-eyebrow { font-size:11px; font-weight:600; color:rgba(255,255,255,.35); text-transform:uppercase; letter-spacing:.8px; margin-bottom:10px; }
+    .hero-title { font-family:'Playfair Display',serif; font-size:46px; font-weight:700; color:#fff; line-height:1.1; letter-spacing:-.5px; }
+    .hero-title em { font-style:italic; color:rgba(255,255,255,.45); font-weight:500; }
+    .hero-body { font-size:14px; color:rgba(255,255,255,.4); margin-top:10px; line-height:1.6; max-width:480px; }
+
+    /* AI nudge */
+    .ai-nudge {
+      max-width:1160px; margin:0 auto; position:relative; z-index:1;
+      margin-top:20px;
+      display:flex; align-items:flex-start; gap:12px;
+      background:rgba(107,140,111,.14); border:1px solid rgba(107,140,111,.22);
+      border-radius:14px; padding:13px 16px;
+    }
+    .ai-dot { width:32px; height:32px; border-radius:9px; flex-shrink:0; background:linear-gradient(135deg,var(--sage),#8AB48E); display:flex; align-items:center; justify-content:center; font-size:14px; color:#fff; }
+    .ai-body { flex:1; }
+    .ai-label { font-size:10px; font-weight:700; color:#8AB48E; text-transform:uppercase; letter-spacing:.7px; margin-bottom:3px; }
+    .ai-text  { font-size:13px; color:rgba(255,255,255,.6); line-height:1.5; }
+    .ai-x { background:none; border:none; color:rgba(255,255,255,.25); font-size:17px; cursor:pointer; padding:0; flex-shrink:0; transition:color .18s; line-height:1; }
+    .ai-x:hover { color:rgba(255,255,255,.6); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      background:var(--white); border-bottom:1px solid var(--fog);
+      padding:0 40px;
+    }
+    .filter-bar-inner {
+      max-width:1160px; margin:0 auto;
+      display:flex; align-items:center; gap:24px;
+      padding:12px 0; flex-wrap:wrap;
+    }
+    .filter-bar-label { font-size:12px; font-weight:600; color:var(--muted); white-space:nowrap; flex-shrink:0; }
+    .filter-chips { display:flex; gap:7px; flex-wrap:wrap; }
+    .chip {
+      display:flex; align-items:center; gap:5px;
+      padding:5px 13px; border-radius:100px;
+      border:1.5px solid var(--fog); background:transparent;
+      font-size:12px; font-weight:500; cursor:pointer;
+      color:var(--stone); transition:all .18s; user-select:none;
+      font-family:'DM Sans',sans-serif;
+    }
+    .chip:hover { border-color:var(--dim); color:var(--ink); }
+    .hidden { display:none !important; }
+    .chip.on { background:var(--sage-g); border-color:var(--sage); color:var(--sage); font-weight:600; }
+    /* chips filter cards below */
+
+    /* ── MENU CONTENT ── */
+    .menu-wrap { max-width:1160px; margin:0 auto; padding:36px 40px 80px; }
+
+    /* GRID - entrees + desserts */
+    .card-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    @media(max-width:860px){ .card-grid { grid-template-columns:repeat(2,1fr); } }
+
+    .g-card {
+      background:var(--white); border-radius:18px; overflow:hidden;
+      border:1.5px solid var(--fog); box-shadow:var(--s1);
+      transition:transform .2s, box-shadow .2s, border-color .2s;
+      position:relative;
+    }
+    .g-card:hover { transform:translateY(-4px); box-shadow:var(--s2); }
+    .g-card.picked { border-color:var(--rust); box-shadow:0 0 0 3px var(--rust-g),var(--s1); }
+    .g-card.feat   { border-color:var(--gold); }
+
+    .g-img {
+      width:100%; height:190px; position:relative; overflow:hidden;
+      background:linear-gradient(145deg,var(--cream),var(--fog));
+    }
+    .g-img img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .38s cubic-bezier(.4,0,.2,1); }
+    .g-card:hover .g-img img { transform:scale(1.07); }
+    .g-img-ph {
+      width:100%; height:100%; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:8px;
+    }
+    .g-img-ph .pe { font-size:46px; }
+    .g-img-ph .pl { font-size:10px; font-weight:700; color:var(--dim); text-transform:uppercase; letter-spacing:.5px; }
+    .g-img-ph .pf { font-size:9px; color:rgba(184,169,154,.5); font-family:monospace; text-align:center; padding:0 12px; line-height:1.5; }
+
+    .feat-badge {
+      position:absolute; top:10px; left:10px;
+      background:rgba(14,12,9,.72); backdrop-filter:blur(8px);
+      color:var(--gold); font-size:10px; font-weight:700;
+      padding:3px 9px; border-radius:100px; text-transform:uppercase; letter-spacing:.3px;
+    }
+    .tag-row { position:absolute; top:10px; right:10px; display:flex; gap:4px; }
+    .tag-row.bottom { top:auto; bottom:10px; left:10px; right:auto; }
+    .itag { font-size:9px; font-weight:700; padding:3px 7px; border-radius:7px; }
+    .itag.gf { background:rgba(197,98,58,.82); color:#fff; }
+    .itag.vg { background:rgba(107,140,111,.85); color:#fff; }
+
+    .g-body { padding:14px 16px 16px; }
+    .g-diets { display:flex; gap:5px; margin-bottom:7px; }
+    .dpill { font-size:10px; font-weight:600; padding:2px 7px; border-radius:100px; border:1px solid; }
+    .dpill.vg { color:var(--sage); border-color:rgba(107,140,111,.28); background:var(--sage-g); }
+    .dpill.gf { color:var(--rust); border-color:rgba(197,98,58,.28); background:var(--rust-g); }
+    .g-name { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--ink); margin-bottom:4px; line-height:1.25; }
+    .g-desc { font-size:12px; color:var(--muted); line-height:1.6; margin-bottom:13px; }
+    .g-foot { display:flex; align-items:center; justify-content:space-between; }
+    .g-price { font-family:'Playfair Display',serif; font-size:19px; font-weight:700; color:var(--ink); }
+    .g-price sup { font-size:11px; font-family:'DM Sans',sans-serif; color:var(--muted); vertical-align:super; }
+
+    /* ADD BUTTON */
+    .a-btn {
+      width:34px; height:34px; border-radius:50%;
+      background:var(--ink); color:#fff; border:none; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      font-size:20px; line-height:1;
+      box-shadow:0 2px 10px rgba(14,12,9,.22);
+      transition:background .15s, transform .12s;
+      flex-shrink:0;
+    }
+    .a-btn:hover { background:var(--rust); }
+    .a-btn:active { transform:scale(.88); }
+
+    /* QTY CONTROL */
+    .qty { display:flex; align-items:center; gap:8px; }
+    .q-btn {
+      width:30px; height:30px; border-radius:50%;
+      border:1.5px solid var(--fog); background:var(--paper);
+      cursor:pointer; font-size:16px; font-weight:600; color:var(--ink);
+      display:flex; align-items:center; justify-content:center;
+      transition:all .15s;
+    }
+    .q-btn:hover { border-color:var(--stone); }
+    .q-btn.inc { background:var(--ink); color:#fff; border-color:var(--ink); }
+    .q-btn.inc:hover { background:var(--rust); border-color:var(--rust); }
+    .q-n { font-size:14px; font-weight:700; color:var(--ink); min-width:16px; text-align:center; }
+
+    /* LIST CARDS - mains */
+    .card-list { display:flex; flex-direction:column; gap:14px; }
+    .l-card {
+      background:var(--white); border-radius:18px; overflow:hidden;
+      border:1.5px solid var(--fog); box-shadow:var(--s1);
+      display:flex; min-height:170px;
+      transition:transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .l-card:hover { transform:translateY(-3px); box-shadow:var(--s2); }
+    .l-card.picked { border-color:var(--rust); box-shadow:0 0 0 3px var(--rust-g),var(--s1); }
+    .l-card.feat   { border-color:var(--gold); }
+
+    .l-img {
+      width:210px; flex-shrink:0; position:relative; overflow:hidden;
+      background:linear-gradient(145deg,var(--cream),var(--fog));
+    }
+    .l-img img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .38s; }
+    .l-card:hover .l-img img { transform:scale(1.06); }
+    .l-img .g-img-ph { height:100%; min-height:unset; border-right:1px dashed var(--fog); }
+
+    .l-body { flex:1; padding:20px 24px; display:flex; flex-direction:column; justify-content:space-between; }
+    .pair-tag { display:inline-flex; align-items:center; gap:5px; font-size:11px; color:var(--sage); background:var(--sage-g); border:1px solid rgba(107,140,111,.18); padding:3px 10px; border-radius:100px; margin-bottom:8px; font-weight:500; }
+    .l-name { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:var(--ink); margin-bottom:5px; line-height:1.2; }
+    .l-desc { font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:14px; }
+    .l-foot { display:flex; align-items:center; justify-content:space-between; }
+    .l-price { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--ink); }
+    .l-price sup { font-size:12px; font-family:'DM Sans',sans-serif; color:var(--muted); vertical-align:super; }
+    .add-pill {
+      display:flex; align-items:center; gap:8px;
+      padding:10px 20px; border-radius:100px;
+      background:var(--ink); color:#fff; border:none; cursor:pointer;
+      font-size:13px; font-weight:600; font-family:'DM Sans',sans-serif;
+      box-shadow:0 2px 10px rgba(14,12,9,.2); transition:background .15s, transform .12s;
+    }
+    .add-pill:hover { background:var(--rust); }
+    .add-pill:active { transform:scale(.97); }
+
+    /* ── ORDER PANEL ── */
+    .scrim { position:fixed; inset:0; z-index:90; background:rgba(14,12,9,0); pointer-events:none; transition:background .3s; }
+    .scrim.open { background:rgba(14,12,9,.52); pointer-events:all; }
+
+    .panel {
+      position:fixed; top:0; right:0; bottom:0; width:520px; z-index:100;
+      background:var(--paper); box-shadow:var(--s4);
+      transform:translateX(110%); transition:transform .36s cubic-bezier(.4,0,.2,1);
+      display:flex; flex-direction:column; overflow:hidden;
+    }
+    .panel.open { transform:translateX(0); }
+
+    .panel-head { padding:28px 30px 20px; border-bottom:1px solid var(--fog); flex-shrink:0; display:flex; align-items:flex-start; justify-content:space-between; }
+    .panel-title { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; color:var(--ink); }
+    .panel-sub   { font-size:13px; color:var(--muted); margin-top:4px; }
+    .panel-x { width:36px; height:36px; border-radius:50%; background:var(--cream); border:1px solid var(--fog); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:17px; color:var(--stone); flex-shrink:0; transition:all .18s; }
+    .panel-x:hover { background:var(--fog); }
+
+    .panel-scroll { flex:1; overflow-y:auto; padding:0 30px 10px; }
+    .panel-scroll::-webkit-scrollbar { width:0; }
+
+    .psec { font-size:10px; font-weight:700; color:var(--rust); text-transform:uppercase; letter-spacing:.8px; padding:18px 0 10px; border-bottom:1px solid var(--fog); }
+    .p-row { display:flex; align-items:center; padding:13px 0; gap:12px; border-bottom:1px solid rgba(232,226,216,.5); }
+    .p-thumb { width:52px; height:52px; border-radius:12px; overflow:hidden; flex-shrink:0; background:var(--cream); }
+    .p-thumb img { width:100%; height:100%; object-fit:cover; }
+    .p-thumb .ptf { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:24px; }
+    .p-info { flex:1; }
+    .p-name { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:3px; line-height:1.3; }
+    .p-tags { display:flex; gap:3px; }
+    .pt { font-size:9px; font-weight:600; padding:2px 6px; border-radius:100px; }
+    .pt.vg { background:var(--sage-g); color:var(--sage); }
+    .pt.gf { background:var(--rust-g); color:var(--rust); }
+    .p-qty { display:flex; align-items:center; gap:8px; }
+    .pq { width:28px; height:28px; border-radius:50%; border:1.5px solid var(--fog); background:var(--white); cursor:pointer; font-size:15px; font-weight:600; color:var(--ink); display:flex; align-items:center; justify-content:center; transition:all .15s; }
+    .pq:hover { border-color:var(--stone); }
+    .pq.inc { background:var(--ink); color:#fff; border-color:var(--ink); }
+    .pq.inc:hover { background:var(--rust); border-color:var(--rust); }
+    .p-qty-n { font-size:13px; font-weight:700; color:var(--ink); min-width:16px; text-align:center; }
+    .p-price { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--ink); min-width:42px; text-align:right; }
+    .p-empty { padding:16px 0; font-size:13px; color:var(--muted); font-style:italic; }
+
+    .panel-foot { padding:18px 30px 28px; border-top:2px solid var(--fog); flex-shrink:0; }
+    .p-total { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+    .p-total-lbl { font-size:16px; font-weight:600; color:var(--ink); }
+    .p-total-val { font-family:'Playfair Display',serif; font-size:32px; font-weight:700; color:var(--ink); }
+
+    .warn-empty { display:none; align-items:center; gap:9px; background:var(--rust-g); border:1px solid rgba(197,98,58,.22); border-radius:11px; padding:11px 15px; margin-bottom:14px; font-size:13px; color:var(--rust); font-weight:500; }
+    .warn-empty.show { display:flex; }
+
+    .send-btn {
+      width:100%; padding:17px; border-radius:14px;
+      background:var(--ink); color:#fff; border:none; cursor:pointer;
+      font-size:15px; font-weight:700; font-family:'DM Sans',sans-serif;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      box-shadow:0 4px 20px rgba(14,12,9,.25); transition:background .18s, transform .12s;
+    }
+    .send-btn:hover { background:var(--rust); }
+    .send-btn:active { transform:scale(.98); }
+
+    /* ── SUCCESS ── */
+    .success-screen { display:none; min-height:100vh; align-items:center; justify-content:center; background:var(--ink); position:relative; overflow:hidden; }
+    .success-screen::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 60% at 50% 55%, rgba(197,98,58,.14) 0%, transparent 70%); pointer-events:none; }
+    .success-screen.active { display:flex; animation:fadeUp .5s ease both; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+    .success-box { text-align:center; max-width:500px; padding:60px 40px; position:relative; z-index:1; }
+    .s-e { font-size:80px; margin-bottom:22px; animation:popIn .5s cubic-bezier(.4,0,.2,1) .1s both; }
+    @keyframes popIn { from{transform:scale(.4);opacity:0} to{transform:scale(1);opacity:1} }
+    .s-t { font-family:'Playfair Display',serif; font-size:42px; font-weight:700; color:#fff; margin-bottom:12px; line-height:1.15; }
+    .s-b { font-size:15px; color:rgba(255,255,255,.45); line-height:1.7; margin-bottom:36px; }
+    .s-badge { display:inline-block; border:1px solid rgba(255,255,255,.1); border-radius:18px; padding:18px 52px; }
+    .s-lbl { font-size:11px; font-weight:600; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:.7px; margin-bottom:6px; }
+    .s-num { font-family:'Playfair Display',serif; font-size:54px; font-weight:900; color:var(--gold); line-height:1; }
+
+    /* ── TOAST ── */
+    .toast { position:fixed; top:82px; left:50%; transform:translateX(-50%) translateY(-12px); background:var(--ink); color:#fff; padding:10px 20px; border-radius:100px; font-size:13px; font-weight:500; opacity:0; pointer-events:none; transition:all .26s cubic-bezier(.4,0,.2,1); white-space:nowrap; z-index:200; border:1px solid rgba(255,255,255,.07); box-shadow:var(--s2); display:flex; align-items:center; gap:7px; }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    .toast.err { background:#7A2E1A; }
+    .tdot { width:6px; height:6px; border-radius:50%; background:var(--sage); flex-shrink:0; }
+    .tdot.r { background:#FF7A5C; }
+  </style>
+</head>
+<body>
+
+<!-- ══════ SCREEN: ENTREES ══════ -->
+<div class="screen active" id="s-entrees">
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">🌸</div>
+        <div class="logo-text">
+          <div class="logo-name">Bloom</div>
+          <div class="logo-tag">Table 7 &nbsp;·&nbsp; Dine in</div>
+        </div>
+      </div>
+      <div class="step-tabs">
+        <button class="stab active" onclick="goTo('entrees')"><span class="stab-num">1</span>Entrees</button>
+        <button class="stab" onclick="goTo('mains')"><span class="stab-num">2</span>Mains</button>
+        <button class="stab" onclick="goTo('desserts')"><span class="stab-num">3</span>Desserts</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="util-btn" title="Accessibility" aria-label="Accessibility">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M12 7v8m-4-6l4 2 4-2M10 21l2-6 2 6"/></svg>
+        </button>
+        <button class="util-btn" title="Language" aria-label="Language">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+        </button>
+        <button class="cart-btn" id="cartBtn" onclick="openPanel()" aria-label="View order">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-count-pill" id="cartCount">0</span>
+          <span class="cart-total-text" id="cartTotal">$0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Bloom Cafe &nbsp;·&nbsp; Entrees</div>
+      <div class="hero-title">Start with <em>something</em><br>light</div>
+      <div class="hero-body">All optional. Choose what you like and move at your own pace.</div>
+    </div>
+    <div class="ai-nudge" id="ai1">
+      <div class="ai-dot">✦</div>
+      <div class="ai-body">
+        <div class="ai-label">Personalised for you</div>
+        <div class="ai-text">Your Vegetarian and Gluten-Free preferences are active. Starred items are our chef's picks for your profile.</div>
+      </div>
+      <button class="ai-x" onclick="this.closest('.ai-nudge').remove()" aria-label="Dismiss">✕</button>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <span class="filter-bar-label">Show me:</span>
+      <div class="filter-chips">
+        <div class="chip on" data-tag="vg" onclick="toggleChip(this)">🌱 Vegetarian</div>
+        <div class="chip on" data-tag="gf" onclick="toggleChip(this)">🌾 Gluten-Free</div>
+        <div class="chip" data-tag="df" onclick="toggleChip(this)">🥛 Dairy-Free</div>
+        <div class="chip" data-tag="ha" onclick="toggleChip(this)">🌙 Halal</div>
+        <div class="chip" data-tag="nf" onclick="toggleChip(this)">🥜 Nut-Free</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-wrap">
+    <div class="card-grid">
+
+      <div class="g-card feat" id="e1">
+        <div class="g-img">
+          <img src="Images/Avocado Toast.webp" alt="Avocado Toast" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🥑</span><span class="pl">Add photo</span><span class="pf">ENTREE_1_AVOCADO_TOAST.jpg</span></div>
+          <div class="feat-badge">★ Chef's Pick</div>
+          <div class="tag-row"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+          <div class="g-name">Avocado Toast</div>
+          <div class="g-desc">GF sourdough, smashed avo, poached egg, dukkah, lemon oil</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>18</div>
+            <div id="ec1"><button class="a-btn" onclick="add('entree',1,'Avocado Toast',18,'Images/Avocado Toast.webp')" aria-label="Add Avocado Toast">+</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-card" id="e2" data-tags="vg,gf">
+        <div class="g-img">
+          <img src="Images/Catering-Platters-Gourmet-Seasonal-Fruit-Platter-1.jpg" alt="Seasonal Fruit Platter" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🍓</span><span class="pl">Add photo</span><span class="pf">ENTREE_2_FRUIT_PLATTER.jpg</span></div>
+          <div class="tag-row"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+          <div class="g-name">Seasonal Fruit Platter</div>
+          <div class="g-desc">Fresh seasonal fruit, honey yoghurt, toasted seeds, mint</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>14</div>
+            <div id="ec2"><button class="a-btn" onclick="add('entree',2,'Seasonal Fruit Platter',14,'Images/Catering-Platters-Gourmet-Seasonal-Fruit-Platter-1.jpg')" aria-label="Add Fruit Platter">+</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-card" id="e3" data-tags="vg">
+        <div class="g-img">
+          <img src="Images/mushroom-bruschetta.webp" alt="Mushroom Bruschetta" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🍄</span><span class="pl">Add photo</span><span class="pf">ENTREE_3_MUSHROOM_BRUSCHETTA.jpg</span></div>
+          <div class="tag-row"><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span></div>
+          <div class="g-name">Mushroom Bruschetta</div>
+          <div class="g-desc">Wild mushrooms, whipped ricotta, herb oil, toasted sourdough</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>16</div>
+            <div id="ec3"><button class="a-btn" onclick="add('entree',3,'Mushroom Bruschetta',16,'Images/mushroom-bruschetta.webp')" aria-label="Add Mushroom Bruschetta">+</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-card feat" id="e4">
+        <div class="g-img">
+          <img src="Images/Acai Bowl.jpg" alt="Acai Bowl" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🫐</span><span class="pl">Add photo</span><span class="pf">ENTREE_4_ACAI_BOWL.jpg</span></div>
+          <div class="feat-badge">★ Chef's Pick</div>
+          <div class="tag-row"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+          <div class="g-name">Acai Bowl</div>
+          <div class="g-desc">Blended acai, house granola, banana, coconut flakes, honey</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>17</div>
+            <div id="ec4"><button class="a-btn" onclick="add('entree',4,'Acai Bowl',17,'Images/Acai Bowl.jpg')" aria-label="Add Acai Bowl">+</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-card" id="e5" data-tags="vg,gf">
+        <div class="g-img">
+          <img src="Images/Heirloom-Tomato-Soup.jpg" alt="Heirloom Tomato Soup" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🍅</span><span class="pl">Add photo</span><span class="pf">ENTREE_5_TOMATO_SOUP.jpg</span></div>
+          <div class="tag-row"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+          <div class="g-name">Heirloom Tomato Soup</div>
+          <div class="g-desc">Slow-roasted heirloom tomatoes, basil oil, GF croutons</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>13</div>
+            <div id="ec5"><button class="a-btn" onclick="add('entree',5,'Heirloom Tomato Soup',13,'Images/Heirloom-Tomato-Soup.jpg')" aria-label="Add Tomato Soup">+</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-card" id="e6" data-tags="vg,gf">
+        <div class="g-img">
+          <img src="Images/Green-Smoothie-Bowl-SQUARE.jpg" alt="Green Smoothie Bowl" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🥝</span><span class="pl">Add photo</span><span class="pf">ENTREE_6_SMOOTHIE_BOWL.jpg</span></div>
+          <div class="tag-row"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+          <div class="g-name">Green Smoothie Bowl</div>
+          <div class="g-desc">Spinach, kiwi, mango, hemp seeds, almond milk, granola</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>15</div>
+            <div id="ec6"><button class="a-btn" onclick="add('entree',6,'Green Smoothie Bowl',15,'Images/Green-Smoothie-Bowl-SQUARE.jpg')" aria-label="Add Smoothie Bowl">+</button></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;margin-top:28px;">
+      <button onclick="goTo('mains')" style="display:flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;box-shadow:0 3px 14px rgba(14,12,9,.2);transition:background .18s;" onmouseover="this.style.background='#C5623A'" onmouseout="this.style.background='var(--ink)'">
+        Continue to Mains
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SCREEN: MAINS ══════ -->
+<div class="screen" id="s-mains">
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">🌸</div>
+        <div class="logo-text">
+          <div class="logo-name">Bloom</div>
+          <div class="logo-tag">Table 7 &nbsp;·&nbsp; Dine in</div>
+        </div>
+      </div>
+      <div class="step-tabs">
+        <button class="stab visited" onclick="goBack('entrees')"><span class="stab-num">1</span>Entrees</button>
+        <button class="stab active" onclick="goTo('mains')"><span class="stab-num">2</span>Mains</button>
+        <button class="stab" onclick="goTo('desserts')"><span class="stab-num">3</span>Desserts</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="back-btn" onclick="goBack('entrees')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <button class="util-btn" title="Accessibility" aria-label="Accessibility">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M12 7v8m-4-6l4 2 4-2M10 21l2-6 2 6"/></svg>
+        </button>
+        <button class="cart-btn" id="cartBtn2" onclick="openPanel()" aria-label="View order">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-count-pill" id="cartCount2">0</span>
+          <span class="cart-total-text" id="cartTotal2">$0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Bloom Cafe &nbsp;·&nbsp; Mains</div>
+      <div class="hero-title">The heart of<br><em>your meal</em></div>
+      <div class="hero-body">Our kitchen's finest, paired to your preferences by our AI engine.</div>
+    </div>
+    <div class="ai-nudge" id="ai2">
+      <div class="ai-dot">✦</div>
+      <div class="ai-body">
+        <div class="ai-label">AI Pairing</div>
+        <div class="ai-text">These mains pair beautifully with your entree selections. Starred items are our top recommendations.</div>
+      </div>
+      <button class="ai-x" onclick="this.closest('.ai-nudge').remove()" aria-label="Dismiss">✕</button>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <span class="filter-bar-label">Show me:</span>
+      <div class="filter-chips">
+        <div class="chip on" data-tag="vg" onclick="toggleChip(this)">🌱 Vegetarian</div>
+        <div class="chip on" data-tag="gf" onclick="toggleChip(this)">🌾 Gluten-Free</div>
+        <div class="chip" data-tag="df" onclick="toggleChip(this)">🥛 Dairy-Free</div>
+        <div class="chip" data-tag="ha" onclick="toggleChip(this)">🌙 Halal</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-wrap">
+    <div class="card-list">
+
+      <div class="l-card feat" id="m1">
+        <div class="l-img">
+          <img src="Images/Poached Eggs on GF Sourdough.jpg" alt="Poached Eggs on GF Sourdough" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none;height:100%;min-height:unset;"><span class="pe">🍳</span><span class="pl">Add photo</span><span class="pf">MAIN_1_POACHED_EGGS.jpg</span></div>
+          <div class="feat-badge">★ Chef's Pick</div>
+          <div class="tag-row bottom"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="l-body">
+          <div>
+            <div class="g-diets" style="margin-bottom:8px;"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+            <div class="pair-tag">✦ Pairs with your Avocado Toast</div>
+            <div class="l-name">Poached Eggs on GF Sourdough</div>
+            <div class="l-desc">Two free-range eggs, GF sourdough, wilted spinach, hollandaise, chives</div>
+          </div>
+          <div class="l-foot">
+            <div class="l-price"><sup>$</sup>22</div>
+            <div id="mc1"><button class="add-pill" onclick="add('main',1,'Poached Eggs on GF Sourdough',22,'Images/Poached Eggs on GF Sourdough.jpg')">+ Add to order</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="l-card feat" id="m2">
+        <div class="l-img">
+          <img src="Images/Smashed Avo Bowl.webp" alt="Smashed Avo Bowl" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none;height:100%;min-height:unset;"><span class="pe">🥗</span><span class="pl">Add photo</span><span class="pf">MAIN_2_SMASHED_AVO_BOWL.jpg</span></div>
+          <div class="feat-badge">★ Chef's Pick</div>
+          <div class="tag-row bottom"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="l-body">
+          <div>
+            <div class="g-diets" style="margin-bottom:8px;"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+            <div class="l-name">Smashed Avo Bowl</div>
+            <div class="l-desc">Smashed avocado, Persian feta, heirloom tomatoes, pumpkin seeds, GF toast</div>
+          </div>
+          <div class="l-foot">
+            <div class="l-price"><sup>$</sup>24</div>
+            <div id="mc2"><button class="add-pill" onclick="add('main',2,'Smashed Avo Bowl',24,'Images/Smashed Avo Bowl.webp')">+ Add to order</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="l-card" id="m3" data-tags="vg,gf">
+        <div class="l-img">
+          <img src="Images/Wild Mushroom Risotto.jpg" alt="Wild Mushroom Risotto" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none;height:100%;min-height:unset;"><span class="pe">🍚</span><span class="pl">Add photo</span><span class="pf">MAIN_3_MUSHROOM_RISOTTO.jpg</span></div>
+          <div class="tag-row bottom"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="l-body">
+          <div>
+            <div class="g-diets" style="margin-bottom:8px;"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+            <div class="l-name">Wild Mushroom Risotto</div>
+            <div class="l-desc">Arborio rice, mixed wild mushrooms, aged parmesan, truffle oil, chives</div>
+          </div>
+          <div class="l-foot">
+            <div class="l-price"><sup>$</sup>26</div>
+            <div id="mc3"><button class="add-pill" onclick="add('main',3,'Wild Mushroom Risotto',26,'Images/Wild Mushroom Risotto.jpg')">+ Add to order</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="l-card" id="m4" data-tags="vg,gf">
+        <div class="l-img">
+          <img src="Images/Roasted Veggie Frittata.jpg" alt="Roasted Veggie Frittata" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none;height:100%;min-height:unset;"><span class="pe">🧆</span><span class="pl">Add photo</span><span class="pf">MAIN_4_VEGGIE_FRITTATA.jpg</span></div>
+          <div class="tag-row bottom"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="l-body">
+          <div>
+            <div class="g-diets" style="margin-bottom:8px;"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+            <div class="l-name">Roasted Veggie Frittata</div>
+            <div class="l-desc">Seasonal roasted vegetables, goats cheese, rocket salad, balsamic reduction</div>
+          </div>
+          <div class="l-foot">
+            <div class="l-price"><sup>$</sup>21</div>
+            <div id="mc4"><button class="add-pill" onclick="add('main',4,'Roasted Veggie Frittata',21,'Images/Roasted Veggie Frittata.jpg')">+ Add to order</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="l-card" id="m5" data-tags="vg,gf">
+        <div class="l-img">
+          <img src="Images/Quinoa Power Bowl.jpg" alt="Quinoa Power Bowl" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none;height:100%;min-height:unset;"><span class="pe">🥙</span><span class="pl">Add photo</span><span class="pf">MAIN_5_QUINOA_BOWL.jpg</span></div>
+          <div class="tag-row bottom"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="l-body">
+          <div>
+            <div class="g-diets" style="margin-bottom:8px;"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+            <div class="l-name">Quinoa Power Bowl</div>
+            <div class="l-desc">Tricolour quinoa, roasted chickpeas, tahini dressing, mixed greens, pomegranate</div>
+          </div>
+          <div class="l-foot">
+            <div class="l-price"><sup>$</sup>23</div>
+            <div id="mc5"><button class="add-pill" onclick="add('main',5,'Quinoa Power Bowl',23,'Images/Quinoa Power Bowl.jpg')">+ Add to order</button></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;margin-top:28px;">
+      <button onclick="goTo('desserts')" style="display:flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;box-shadow:0 3px 14px rgba(14,12,9,.2);transition:background .18s;" onmouseover="this.style.background='#C5623A'" onmouseout="this.style.background='var(--ink)'">
+        Continue to Desserts
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SCREEN: DESSERTS ══════ -->
+<div class="screen" id="s-desserts">
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">🌸</div>
+        <div class="logo-text">
+          <div class="logo-name">Bloom</div>
+          <div class="logo-tag">Table 7 &nbsp;·&nbsp; Dine in</div>
+        </div>
+      </div>
+      <div class="step-tabs">
+        <button class="stab visited" onclick="goBack('entrees')"><span class="stab-num">1</span>Entrees</button>
+        <button class="stab visited" onclick="goBack('mains')"><span class="stab-num">2</span>Mains</button>
+        <button class="stab active" onclick="goTo('desserts')"><span class="stab-num">3</span>Desserts</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="back-btn" onclick="goBack('mains')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <button class="util-btn" title="Accessibility" aria-label="Accessibility">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M12 7v8m-4-6l4 2 4-2M10 21l2-6 2 6"/></svg>
+        </button>
+        <button class="cart-btn" id="cartBtn3" onclick="openPanel()" aria-label="View order">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-count-pill" id="cartCount3">0</span>
+          <span class="cart-total-text" id="cartTotal3">$0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Bloom Cafe &nbsp;·&nbsp; Desserts</div>
+      <div class="hero-title">End on a<br><em>sweet note</em></div>
+      <div class="hero-body">All made fresh in-house. Completely optional but highly recommended.</div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <span class="filter-bar-label">Show me:</span>
+      <div class="filter-chips">
+        <div class="chip on" data-tag="vg" onclick="toggleChip(this)">🌱 Vegetarian</div>
+        <div class="chip on" data-tag="gf" onclick="toggleChip(this)">🌾 Gluten-Free</div>
+        <div class="chip" data-tag="df" onclick="toggleChip(this)">🥛 Dairy-Free</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-wrap">
+    <div class="card-grid">
+
+      <div class="g-card feat" id="d1">
+        <div class="g-img">
+          <img src="Images/GF Lemon Tart.jpg" alt="GF Lemon Tart" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🍋</span><span class="pl">Add photo</span><span class="pf">DESSERT_1_LEMON_TART.jpg</span></div>
+          <div class="feat-badge">★ Chef's Pick</div>
+          <div class="tag-row"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+          <div class="g-name">GF Lemon Tart</div>
+          <div class="g-desc">Almond pastry shell, silky lemon curd, fresh raspberry coulis</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>12</div>
+            <div id="dc1"><button class="a-btn" onclick="add('dessert',1,'GF Lemon Tart',12,'Images/GF Lemon Tart.jpg')" aria-label="Add GF Lemon Tart">+</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-card" id="d2" data-tags="vg,gf">
+        <div class="g-img">
+          <img src="Images/Vanilla Panna Cotta.jpg" alt="Vanilla Panna Cotta" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🍮</span><span class="pl">Add photo</span><span class="pf">DESSERT_2_PANNA_COTTA.jpg</span></div>
+          <div class="tag-row"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+          <div class="g-name">Vanilla Panna Cotta</div>
+          <div class="g-desc">Coconut milk, Madagascan vanilla bean, mixed berry compote</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>11</div>
+            <div id="dc2"><button class="a-btn" onclick="add('dessert',2,'Vanilla Panna Cotta',11,'Images/Vanilla Panna Cotta.jpg')" aria-label="Add Vanilla Panna Cotta">+</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-card" id="d3" data-tags="vg,gf">
+        <div class="g-img">
+          <img src="Images/Dark Choc Mousse.jpg" alt="Dark Choc Mousse" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🍫</span><span class="pl">Add photo</span><span class="pf">DESSERT_3_CHOC_MOUSSE.jpg</span></div>
+          <div class="tag-row"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+          <div class="g-name">Dark Choc Mousse</div>
+          <div class="g-desc">70% single-origin cacao, Maldon salt, toasted hazelnuts</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>13</div>
+            <div id="dc3"><button class="a-btn" onclick="add('dessert',3,'Dark Choc Mousse',13,'Images/Dark Choc Mousse.jpg')" aria-label="Add Dark Choc Mousse">+</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-card feat" id="d4">
+        <div class="g-img">
+          <img src="Images/Mini Pavlova.jpg" alt="Mini Pavlova" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🎂</span><span class="pl">Add photo</span><span class="pf">DESSERT_4_PAVLOVA.jpg</span></div>
+          <div class="feat-badge">★ Chef's Pick</div>
+          <div class="tag-row"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+          <div class="g-name">Mini Pavlova</div>
+          <div class="g-desc">Crisp meringue, whipped cream, fresh passionfruit and kiwi</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>14</div>
+            <div id="dc4"><button class="a-btn" onclick="add('dessert',4,'Mini Pavlova',14,'Images/Mini Pavlova.jpg')" aria-label="Add Mini Pavlova">+</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-card" id="d5" data-tags="vg,gf">
+        <div class="g-img">
+          <img src="Images/Sorbet Trio.webp" alt="Sorbet Trio" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🍧</span><span class="pl">Add photo</span><span class="pf">DESSERT_5_SORBET.jpg</span></div>
+          <div class="tag-row"><span class="itag gf">GF</span><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span><span class="dpill gf">Gluten-Free</span></div>
+          <div class="g-name">Sorbet Trio</div>
+          <div class="g-desc">House-churned mango, lychee and raspberry sorbets</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>10</div>
+            <div id="dc5"><button class="a-btn" onclick="add('dessert',5,'Sorbet Trio',10,'Images/Sorbet Trio.webp')" aria-label="Add Sorbet Trio">+</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-card" id="d6" data-tags="vg">
+        <div class="g-img">
+          <img src="Images/Matcha Tiramisu.jpg" alt="Matcha Tiramisu" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="g-img-ph" style="display:none"><span class="pe">🍵</span><span class="pl">Add photo</span><span class="pf">DESSERT_6_MATCHA.jpg</span></div>
+          <div class="tag-row"><span class="itag vg">VG</span></div>
+        </div>
+        <div class="g-body">
+          <div class="g-diets"><span class="dpill vg">Vegetarian</span></div>
+          <div class="g-name">Matcha Tiramisu</div>
+          <div class="g-desc">Ceremonial matcha mascarpone, savoiardi, white chocolate dust</div>
+          <div class="g-foot">
+            <div class="g-price"><sup>$</sup>13</div>
+            <div id="dc6"><button class="a-btn" onclick="add('dessert',6,'Matcha Tiramisu',13,'Images/Matcha Tiramisu.jpg')" aria-label="Add Matcha Tiramisu">+</button></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;margin-top:28px;">
+      <button onclick="openPanel()" style="display:flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;background:var(--rust);color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;box-shadow:0 3px 16px rgba(197,98,58,.4);transition:background .18s;" onmouseover="this.style.background='#A44E2C'" onmouseout="this.style.background='var(--rust)'">
+        Review and Send Order
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SUCCESS ══════ -->
+<div class="success-screen" id="s-success">
+  <div class="success-box">
+    <div class="s-e">✅</div>
+    <div class="s-t">Order sent to<br>the kitchen</div>
+    <div class="s-b">Your food is being prepared fresh right now. Sit back and enjoy your time at Bloom.</div>
+    <div class="s-badge">
+      <div class="s-lbl">Order number</div>
+      <div class="s-num">#39</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ ORDER PANEL ══════ -->
+<div class="scrim" id="scrim" onclick="closePanel()"></div>
+<div class="panel" id="panel">
+  <div class="panel-head">
+    <div>
+      <div class="panel-title">Your Order</div>
+      <div class="panel-sub">Table 7 &nbsp;·&nbsp; Bloom Cafe</div>
+    </div>
+    <button class="panel-x" onclick="closePanel()" aria-label="Close">✕</button>
+  </div>
+  <div class="panel-scroll" id="panelBody"></div>
+  <div class="panel-foot">
+    <div class="warn-empty" id="warnEmpty">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Please add at least one item before sending.
+    </div>
+    <div class="p-total">
+      <div class="p-total-lbl">Total</div>
+      <div class="p-total-val" id="panelTotal">$0</div>
+    </div>
+    <button class="send-btn" onclick="sendOrder()">🍽 &nbsp; Send to Kitchen</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="tdot" id="tdot"></span><span id="tmsg"></span></div>
+
+<script>
+const O = { entree:{}, main:{}, dessert:{} };
+const D = {
+  entree:{1:['Avocado Toast',18,'ENTREE_1_AVOCADO_TOAST.jpg'],2:['Seasonal Fruit Platter',14,'ENTREE_2_FRUIT_PLATTER.jpg'],3:['Mushroom Bruschetta',16,'ENTREE_3_MUSHROOM_BRUSCHETTA.jpg'],4:['Acai Bowl',17,'ENTREE_4_ACAI_BOWL.jpg'],5:['Heirloom Tomato Soup',13,'ENTREE_5_TOMATO_SOUP.jpg'],6:['Green Smoothie Bowl',15,'ENTREE_6_SMOOTHIE_BOWL.jpg']},
+  main:{1:['Poached Eggs on GF Sourdough',22,'MAIN_1_POACHED_EGGS.jpg'],2:['Smashed Avo Bowl',24,'MAIN_2_SMASHED_AVO_BOWL.jpg'],3:['Wild Mushroom Risotto',26,'MAIN_3_MUSHROOM_RISOTTO.jpg'],4:['Roasted Veggie Frittata',21,'MAIN_4_VEGGIE_FRITTATA.jpg'],5:['Quinoa Power Bowl',23,'MAIN_5_QUINOA_BOWL.jpg']},
+  dessert:{1:['GF Lemon Tart',12,'DESSERT_1_LEMON_TART.jpg'],2:['Vanilla Panna Cotta',11,'DESSERT_2_PANNA_COTTA.jpg'],3:['Dark Choc Mousse',13,'DESSERT_3_CHOC_MOUSSE.jpg'],4:['Mini Pavlova',14,'DESSERT_4_PAVLOVA.jpg'],5:['Sorbet Trio',10,'DESSERT_5_SORBET.jpg'],6:['Matcha Tiramisu',13,'DESSERT_6_MATCHA.jpg']}
+};
+const px = c => c==='entree'?'e':c==='main'?'m':'d';
+
+function add(course, id, name, price, img) {
+  if (O[course][id]) return;
+  O[course][id] = {name,price,qty:1,img};
+  document.getElementById(px(course)+id).classList.add('picked');
+  const cid = px(course)[0]+'c'+id;
+  const isMain = course==='main';
+  document.getElementById(cid).innerHTML = isMain
+    ? `<div class="qty"><button class="q-btn" onclick="chg('${course}',${id},-1)" aria-label="Remove">-</button><span class="q-n" id="qn_${course}_${id}">1</span><button class="q-btn inc" onclick="chg('${course}',${id},1)" aria-label="Add">+</button></div>`
+    : `<div class="qty"><button class="q-btn" onclick="chg('${course}',${id},-1)" aria-label="Remove">-</button><span class="q-n" id="qn_${course}_${id}">1</span><button class="q-btn inc" onclick="chg('${course}',${id},1)" aria-label="Add">+</button></div>`;
+  sync(); showToast(name+' added',false);
+}
+
+function chg(course, id, delta) {
+  if (!O[course][id]) return;
+  O[course][id].qty += delta;
+  if (O[course][id].qty < 1) {
+    delete O[course][id];
+    const p=px(course), cid=p[0]+'c'+id;
+    document.getElementById(p+id).classList.remove('picked');
+    const [n,pr,img]=D[course][id];
+    document.getElementById(cid).innerHTML = course==='main'
+      ? `<button class="add-pill" onclick="add('${course}',${id},'${n}',${pr},'${img}')">+ Add to order</button>`
+      : `<button class="a-btn" onclick="add('${course}',${id},'${n}',${pr},'${img}')" aria-label="Add ${n}">+</button>`;
+  } else {
+    document.getElementById('qn_'+course+'_'+id).textContent = O[course][id].qty;
+  }
+  sync(); showToast('Order updated',false);
+}
+
+function sync() {
+  let qty=0, total=0;
+  ['entree','main','dessert'].forEach(c=>Object.values(O[c]).forEach(it=>{qty+=it.qty;total+=it.qty*it.price;}));
+  // Update all 3 cart buttons in header
+  ['','2','3'].forEach(n=>{
+    const cc=document.getElementById('cartCount'+n);
+    const ct=document.getElementById('cartTotal'+n);
+    const cb=document.getElementById('cartBtn'+n);
+    if(cc) cc.textContent=qty;
+    if(ct) ct.textContent='$'+total;
+    if(cb){ cb.classList.toggle('has-items',qty>0); if(qty>0){cb.classList.add('bump');setTimeout(()=>cb.classList.remove('bump'),300);} }
+  });
+  document.getElementById('panelTotal').textContent='$'+total;
+}
+
+function goTo(s){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active','reverse'));
+  document.getElementById('s-'+s).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goBack(s){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active','reverse'));
+  document.getElementById('s-'+s).classList.add('reverse');
+  window.scrollTo(0,0);
+}
+
+function openPanel(){
+  renderPanel();
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('scrim').classList.add('open');
+  document.getElementById('warnEmpty').classList.remove('show');
+}
+function closePanel(){
+  document.getElementById('panel').classList.remove('open');
+  document.getElementById('scrim').classList.remove('open');
+}
+
+function renderPanel(){
+  const secs=[{key:'entree',lbl:'Entrees'},{key:'main',lbl:'Mains'},{key:'dessert',lbl:'Desserts'}];
+  let h='';
+  secs.forEach(({key,lbl})=>{
+    h+=`<div class="psec">${lbl}</div>`;
+    const items=Object.entries(O[key]);
+    if(!items.length){h+=`<div class="p-empty">No ${lbl.toLowerCase()} selected</div>`;return;}
+    items.forEach(([id,it])=>{
+      h+=`<div class="p-row">
+        <div class="p-thumb"><img src="${it.img}" alt="${it.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ptf" style="display:none">🍽</div></div>
+        <div class="p-info"><div class="p-name">${it.name}</div><div class="p-tags"><span class="pt vg">VG</span><span class="pt gf">GF</span></div></div>
+        <div class="p-qty"><button class="pq" onclick="pChg('${key}',${id},-1)">-</button><span class="p-qty-n">${it.qty}</span><button class="pq inc" onclick="pChg('${key}',${id},1)">+</button></div>
+        <div class="p-price">$${it.qty*it.price}</div>
+      </div>`;
+    });
+  });
+  document.getElementById('panelBody').innerHTML=h;
+}
+
+function pChg(course,id,delta){
+  if(!O[course][id])return;
+  O[course][id].qty+=delta;
+  if(O[course][id].qty<1){
+    delete O[course][id];
+    const p=px(course),cid=p[0]+'c'+id;
+    document.getElementById(p+id).classList.remove('picked');
+    const [n,pr,img]=D[course][id];
+    document.getElementById(cid).innerHTML=course==='main'
+      ?`<button class="add-pill" onclick="add('${course}',${id},'${n}',${pr},'${img}')">+ Add to order</button>`
+      :`<button class="a-btn" onclick="add('${course}',${id},'${n}',${pr},'${img}')" aria-label="Add ${n}">+</button>`;
+  }
+  sync();renderPanel();showToast('Order updated',false);
+}
+
+function sendOrder(){
+  let qty=0;
+  ['entree','main','dessert'].forEach(c=>Object.values(O[c]).forEach(it=>qty+=it.qty));
+  if(qty===0){document.getElementById('warnEmpty').classList.add('show');showToast('Please add at least one item first',true);return;}
+  closePanel();
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active','reverse'));
+  document.getElementById('s-success').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showToast(msg,isErr){
+  document.getElementById('tmsg').textContent=msg;
+  const t=document.getElementById('toast');
+  document.getElementById('tdot').className=isErr?'tdot r':'tdot';
+  t.className=isErr?'toast err show':'toast show';
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+sync();
+
+// ── WORKING DIETARY FILTER ──
+const activeFilters = new Set(['vg','gf']); // default on
+
+function toggleChip(chip) {
+  chip.classList.toggle('on');
+  const tag = chip.dataset.tag;
+  if (chip.classList.contains('on')) activeFilters.add(tag);
+  else activeFilters.delete(tag);
+  applyFilters();
+}
+
+function applyFilters() {
+  document.querySelectorAll('[data-tags]').forEach(card => {
+    if (activeFilters.size === 0) { card.classList.remove('hidden'); return; }
+    const cardTags = (card.dataset.tags || '').split(',');
+    const passes = [...activeFilters].every(f => cardTags.includes(f));
+    card.classList.toggle('hidden', !passes);
+  });
+}
+
+// Run on load
+applyFilters();
+</script>
+</body>
+</html>
