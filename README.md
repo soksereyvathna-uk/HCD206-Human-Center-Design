@@ -1,4 +1,4 @@
-﻿# HCD-Human-Center-Design
+﻿# HCD206-Human-Center-Design
 
 # Bloom Cafe | AI Menu Ordering App
 ### HCD206 Human Centred Design for Software Engineering | Assessment 3
