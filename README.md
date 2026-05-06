@@ -104,7 +104,7 @@ Open `https://bloom-cafe-soksereyvathna-uk.vercel.app/` directly in any browser.
 
 ## Academic Integrity
 
-This prototype was built entirely by the student as part of a graded assessment. All code was written from scratch. No templates, frameworks or AI-generated code were used in the final submission.
+This prototype was built entirely by the student as part of a graded assessment. 
 
 ---
 
