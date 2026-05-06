@@ -15,7 +15,7 @@ The app allows diners to browse and order from an Entree, Mains and Desserts men
 
 ## Live Demo
 
-Open `Bloom_Cafe_Prototype.html` directly in any browser. No installation or server required.
+Open `https://bloom-cafe-soksereyvathna-uk.vercel.app/` directly in any browser. No installation or server required.
 
 ---
 
