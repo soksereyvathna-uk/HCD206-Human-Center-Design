@@ -36,8 +36,8 @@
     }
 
     *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-    html { scroll-behavior:smooth; }
-    body { font-family:'DM Sans',sans-serif; background:var(--paper); color:var(--ink); min-height:100vh; }
+    html { scroll-behavior:smooth; overflow-x:hidden; }
+    body { font-family:'DM Sans',sans-serif; background:var(--paper); color:var(--ink); min-height:100vh; overflow-x:hidden; }
 
     /* ── SCREENS ── */
     .screen { display:none; }
@@ -391,6 +391,193 @@
     .toast.err { background:#7A2E1A; }
     .tdot { width:6px; height:6px; border-radius:50%; background:var(--sage); flex-shrink:0; }
     .tdot.r { background:#FF7A5C; }
+
+    /* ══════════════════════════════════════
+       TABLET — ≤ 860px
+    ══════════════════════════════════════ */
+    @media (max-width: 860px) {
+      .util-btn { display: none; }
+      .hero  { padding: 28px 16px 24px; }
+      .filter-bar { padding: 0 16px; }
+      .menu-wrap  { padding: 20px 16px 80px; }
+      .panel { width: 100%; max-width: 480px; }
+      /* Header: logo + cart row 1, tabs row 2 */
+      .header-inner {
+        padding: 8px 16px;
+        height: auto;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .logo         { order: 1; flex: 1; }
+      .header-right { order: 2; flex-shrink: 0; }
+      .step-tabs    { order: 3; flex: 0 0 100%; max-width: 100%; margin-top: 2px; }
+    }
+
+    /* ══════════════════════════════════════
+       MOBILE — ≤ 480px
+    ══════════════════════════════════════ */
+    @media (max-width: 480px) {
+
+      /* ── Global ── */
+      html, body { overflow-x: hidden; max-width: 100vw; }
+
+      /* ── Header: 2-row layout ── */
+      .header-inner {
+        padding: 8px 12px;
+        height: auto;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .logo         { order: 1; flex: 1; }
+      .header-right { order: 2; flex-shrink: 0; }
+      .util-btn     { display: none; }
+      .logo-icon { width: 28px; height: 28px; font-size: 14px; border-radius: 8px; }
+      .logo-name { font-size: 15px; }
+      .logo-tag  { font-size: 10px; }
+      .cart-btn { padding: 7px 11px; gap: 6px; font-size: 12px; }
+      .cart-total-text { font-size: 12px; }
+      .cart-count-pill { font-size: 11px; padding: 1px 5px; min-width: 18px; }
+
+      /* Step tabs: full-width second row */
+      .step-tabs {
+        order: 3;
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding: 3px;
+        gap: 2px;
+        margin-top: 2px;
+      }
+      .stab { padding: 7px 6px; font-size: 11px; gap: 4px; }
+      .stab-lbl { font-size: 11px; }
+      .stab-num { width: 20px; height: 20px; font-size: 10px; }
+
+      /* ── Hero ── */
+      .hero { padding: 22px 14px 20px; }
+      .hero-title { font-size: 28px; letter-spacing: -0.3px; }
+      .hero-body  { font-size: 13px; max-width: 100%; }
+      .ai-nudge   { padding: 10px 12px; gap: 10px; border-radius: 12px; margin-top: 14px; }
+      .ai-dot     { width: 26px; height: 26px; font-size: 12px; }
+      .ai-text    { font-size: 12px; }
+      .ai-label   { font-size: 9px; }
+
+      /* ── Filter bar ── */
+      .filter-bar {
+        padding: 0;
+        overflow-x: hidden;
+      }
+      .filter-bar-inner {
+        padding: 8px 12px;
+        gap: 6px;
+        flex-wrap: wrap;
+        overflow-x: hidden;
+      }
+      .filter-bar-label { font-size: 11px; width: 100%; }
+      .filter-chips { flex-wrap: wrap; gap: 5px; }
+      .chip { font-size: 11px; padding: 5px 10px; }
+
+      /* ── Menu wrap ── */
+      .menu-wrap { padding: 16px 12px 80px; }
+
+      /* Section header */
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding-bottom: 14px;
+      }
+
+      /* Back button */
+      .back-btn { padding: 7px 12px; font-size: 11px; }
+      .back-btn .back-label { display: none; }
+
+      /* ── Grid cards (entrees & desserts) → 2 columns ── */
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px;
+      }
+      .g-img { height: 110px; }
+      .g-img-ph .pe { font-size: 32px; }
+      .g-body { padding: 8px 10px 10px; }
+      .g-diets { gap: 3px; margin-bottom: 5px; flex-wrap: wrap; }
+      .dpill { font-size: 9px; padding: 1px 5px; }
+      .g-name { font-size: 13px; margin-bottom: 3px; line-height: 1.2; }
+      .g-desc { font-size: 10px; margin-bottom: 8px; line-height: 1.5;
+                display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .g-price { font-size: 15px; }
+      .g-price sup { font-size: 9px; }
+      .a-btn { width: 28px; height: 28px; font-size: 16px; }
+      .feat-badge { font-size: 8px; padding: 2px 6px; top: 7px; left: 7px; }
+      .itag { font-size: 8px; padding: 2px 5px; }
+      .tag-row { gap: 2px; top: 7px; right: 7px; }
+      .q-btn { width: 24px; height: 24px; font-size: 14px; }
+      .q-n { font-size: 12px; }
+      .qty { gap: 5px; }
+
+      /* ── List cards (mains) → stacked ── */
+      .l-card {
+        flex-direction: column;
+        min-height: unset;
+      }
+      .l-img {
+        width: 100% !important;
+        height: 150px;
+        flex-shrink: unset;
+      }
+      .l-body { padding: 12px 14px 14px; }
+      .pair-tag { font-size: 10px; padding: 2px 8px; margin-bottom: 6px; }
+      .l-name { font-size: 16px; margin-bottom: 4px; }
+      .l-desc { font-size: 12px; margin-bottom: 10px; }
+      .l-foot { flex-wrap: wrap; gap: 8px; }
+      .l-price { font-size: 18px; }
+      .add-pill { padding: 8px 14px; font-size: 12px; }
+
+      /* ── Continue buttons ── */
+      .continue-wrap {
+        justify-content: stretch !important;
+        margin-top: 20px;
+      }
+      .continue-wrap button {
+        width: 100% !important;
+        justify-content: center;
+        padding: 14px 20px !important;
+      }
+
+      /* ── Order panel ── */
+      .panel { width: 100% !important; max-width: 100% !important; top: 0; }
+      .panel-head { padding: 18px 16px 14px; }
+      .panel-title { font-size: 22px; }
+      .panel-sub { font-size: 12px; }
+      .panel-scroll { padding: 0 16px 10px; }
+      .p-row { gap: 8px; padding: 10px 0; }
+      .p-thumb { width: 44px; height: 44px; border-radius: 10px; }
+      .p-name { font-size: 13px; }
+      .pq { width: 24px; height: 24px; font-size: 13px; }
+      .p-qty { gap: 5px; }
+      .p-price { font-size: 15px; min-width: 34px; }
+      .panel-foot { padding: 12px 16px 24px; }
+      .p-total-val { font-size: 26px; }
+      .send-btn { padding: 15px; font-size: 14px; }
+
+      /* ── Success screen ── */
+      .success-box { padding: 36px 20px; }
+      .s-e { font-size: 56px; margin-bottom: 16px; }
+      .s-t { font-size: 28px; }
+      .s-b { font-size: 13px; margin-bottom: 28px; }
+      .s-badge { padding: 14px 30px; border-radius: 14px; }
+      .s-num { font-size: 38px; }
+
+      /* ── Toast ── */
+      .toast {
+        top: 62px;
+        max-width: calc(100vw - 24px);
+        white-space: normal;
+        text-align: center;
+        font-size: 12px;
+        padding: 9px 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -407,11 +594,11 @@
         </div>
       </div>
       <div class="step-tabs">
-        <button class="stab active" onclick="goTo('entrees')"><span class="stab-num">1</span>Entrees</button>
-        <button class="stab" onclick="goTo('mains')"><span class="stab-num">2</span>Mains</button>
-        <button class="stab" onclick="goTo('desserts')"><span class="stab-num">3</span>Desserts</button>
+        <button class="stab active" onclick="goTo('entrees')"><span class="stab-num">1</span><span class="stab-lbl">Entrees</span></button>
+        <button class="stab" onclick="goTo('mains')"><span class="stab-num">2</span><span class="stab-lbl">Mains</span></button>
+        <button class="stab" onclick="goTo('desserts')"><span class="stab-num">3</span><span class="stab-lbl">Desserts</span></button>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;">
+      <div class="header-right" style="display:flex;align-items:center;gap:8px;">
         <button class="util-btn" title="Accessibility" aria-label="Accessibility">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M12 7v8m-4-6l4 2 4-2M10 21l2-6 2 6"/></svg>
         </button>
@@ -565,7 +752,7 @@
 
     </div>
 
-    <div style="display:flex;justify-content:flex-end;margin-top:28px;">
+    <div class="continue-wrap" style="display:flex;justify-content:flex-end;margin-top:28px;">
       <button onclick="goTo('mains')" style="display:flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;box-shadow:0 3px 14px rgba(14,12,9,.2);transition:background .18s;" onmouseover="this.style.background='#C5623A'" onmouseout="this.style.background='var(--ink)'">
         Continue to Mains
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -588,12 +775,12 @@
       <div class="step-tabs">
         <button class="stab visited" onclick="goBack('entrees')"><span class="stab-num">1</span>Entrees</button>
         <button class="stab active" onclick="goTo('mains')"><span class="stab-num">2</span>Mains</button>
-        <button class="stab" onclick="goTo('desserts')"><span class="stab-num">3</span>Desserts</button>
+        <button class="stab" onclick="goTo('desserts')"><span class="stab-num">3</span><span class="stab-lbl">Desserts</span></button>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;">
+      <div class="header-right" style="display:flex;align-items:center;gap:8px;">
         <button class="back-btn" onclick="goBack('entrees')">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-          Back
+          <span class="back-label">Back</span>
         </button>
         <button class="util-btn" title="Accessibility" aria-label="Accessibility">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M12 7v8m-4-6l4 2 4-2M10 21l2-6 2 6"/></svg>
@@ -738,7 +925,7 @@
 
     </div>
 
-    <div style="display:flex;justify-content:flex-end;margin-top:28px;">
+    <div class="continue-wrap" style="display:flex;justify-content:flex-end;margin-top:28px;">
       <button onclick="goTo('desserts')" style="display:flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;box-shadow:0 3px 14px rgba(14,12,9,.2);transition:background .18s;" onmouseover="this.style.background='#C5623A'" onmouseout="this.style.background='var(--ink)'">
         Continue to Desserts
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -763,10 +950,10 @@
         <button class="stab visited" onclick="goBack('mains')"><span class="stab-num">2</span>Mains</button>
         <button class="stab active" onclick="goTo('desserts')"><span class="stab-num">3</span>Desserts</button>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;">
+      <div class="header-right" style="display:flex;align-items:center;gap:8px;">
         <button class="back-btn" onclick="goBack('mains')">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-          Back
+          <span class="back-label">Back</span>
         </button>
         <button class="util-btn" title="Accessibility" aria-label="Accessibility">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M12 7v8m-4-6l4 2 4-2M10 21l2-6 2 6"/></svg>
@@ -908,7 +1095,7 @@
 
     </div>
 
-    <div style="display:flex;justify-content:flex-end;margin-top:28px;">
+    <div class="continue-wrap" style="display:flex;justify-content:flex-end;margin-top:28px;">
       <button onclick="openPanel()" style="display:flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;background:var(--rust);color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;box-shadow:0 3px 16px rgba(197,98,58,.4);transition:background .18s;" onmouseover="this.style.background='#A44E2C'" onmouseout="this.style.background='var(--rust)'">
         Review and Send Order
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
